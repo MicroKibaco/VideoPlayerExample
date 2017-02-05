@@ -1,7 +1,9 @@
 package com.asiainfo.videoplayer.activity;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -61,6 +63,8 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
     //整个布局容器
     @BindView(R.id.rl_video)
     RelativeLayout mRlVideo;
+    private AudioManager mAudioManager;
+    private boolean isFullScreen = false;
     //当前获取屏幕的宽和屏幕的高
     private int screen_width, screen_heigh;
     private Handler mHandler = new Handler() {
@@ -98,9 +102,10 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
     }
 
     private void setPlayerEvent() {
-
+        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         screen_width = getResources().getDisplayMetrics().widthPixels;
         screen_heigh = getResources().getDisplayMetrics().heightPixels;
+
 
         mSeekBarPlay.setOnSeekBarChangeListener(this);
 
@@ -135,6 +140,7 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
         mVideoView.setVideoPath(path);
         mVideoView.start();
         mHandler.sendEmptyMessage(UPDATE_UI);
+
 
 
         /***
@@ -231,6 +237,20 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
             case R.id.ll_playControl:
                 break;
             case R.id.iv_screenSwitch:
+
+                /***
+                 * 切换屏幕
+                 */
+                if (isFullScreen) {
+
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+                } else {
+
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+                }
+
                 break;
             case R.id.iv_volume:
                 break;
@@ -269,6 +289,10 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
         mHandler.sendEmptyMessage(UPDATE_UI);
 
     }
+    /***
+     * 横竖屏切换
+     */
+
 
     /***
      * 监听到屏幕方向的改变
@@ -283,12 +307,19 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
             setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            mIvVolume.setVisibility(View.VISIBLE);
+            mSbVolume.setVisibility(View.VISIBLE);
+            isFullScreen = true;
+
 
         } else {
             /***
              * 当屏幕为竖屏的时候
              */
             setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, PixelUtil.dp2px(this, 240));
+            mIvVolume.setVisibility(View.GONE);
+            mSbVolume.setVisibility(View.GONE);
+            isFullScreen = false;
 
         }
     }
