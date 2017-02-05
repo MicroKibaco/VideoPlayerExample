@@ -1,11 +1,13 @@
 package com.asiainfo.videoplayer.activity;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.asiainfo.videoplayer.R;
+import com.asiainfo.videoplayer.utils.PixelUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +61,8 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
     //整个布局容器
     @BindView(R.id.rl_video)
     RelativeLayout mRlVideo;
+    //当前获取屏幕的宽和屏幕的高
+    private int screen_width, screen_heigh;
     private Handler mHandler = new Handler() {
 
         @Override
@@ -94,7 +99,25 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
 
     private void setPlayerEvent() {
 
+        screen_width = getResources().getDisplayMetrics().widthPixels;
+        screen_heigh = getResources().getDisplayMetrics().heightPixels;
+
         mSeekBarPlay.setOnSeekBarChangeListener(this);
+
+    }
+
+    private void setVideoViewScale(int width, int height) {
+
+        ViewGroup.LayoutParams lp = mVideoView.getLayoutParams();
+        lp.width = width;
+        lp.height = height;
+        mVideoView.setLayoutParams(lp);
+
+
+        ViewGroup.LayoutParams lptemp = mRlVideo.getLayoutParams();
+        lptemp.width = width;
+        lptemp.height = height;
+        mRlVideo.setLayoutParams(lptemp);
 
     }
 
@@ -245,5 +268,28 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
         mVideoView.seekTo(progress);
         mHandler.sendEmptyMessage(UPDATE_UI);
 
+    }
+
+    /***
+     * 监听到屏幕方向的改变
+     */
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        /***
+         * 当屏幕方向为横屏的时候
+         */
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        } else {
+            /***
+             * 当屏幕为竖屏的时候
+             */
+            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, PixelUtil.dp2px(this, 240));
+
+        }
     }
 }
