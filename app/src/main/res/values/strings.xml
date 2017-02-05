@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">简易视频播放器</string>
+    <string name="mv_name">/ReactNative.mp4</string>
 </resources>
