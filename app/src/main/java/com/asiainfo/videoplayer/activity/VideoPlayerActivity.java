@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class VideoPlayerActivity extends Activity {
+public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarChangeListener {
 
     static final int UPDATE_UI = 1;
     //播放控件
@@ -94,6 +94,7 @@ public class VideoPlayerActivity extends Activity {
 
     private void setPlayerEvent() {
 
+        mSeekBarPlay.setOnSeekBarChangeListener(this);
 
     }
 
@@ -198,6 +199,7 @@ public class VideoPlayerActivity extends Activity {
 
                 }
 
+
                 break;
             case R.id.tv_currentTime:
                 break;
@@ -218,5 +220,30 @@ public class VideoPlayerActivity extends Activity {
             case R.id.rl_video:
                 break;
         }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+        updateTextViewWithTimeOut(mTvCurrentTime, progress);
+
+    }
+
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+        mHandler.removeMessages(UPDATE_UI);
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+        int progress = seekBar.getProgress();
+
+        //另视频播放的进度遵循seekBar停止拖动的这一刻的进度
+        mVideoView.seekTo(progress);
+        mHandler.sendEmptyMessage(UPDATE_UI);
+
     }
 }
