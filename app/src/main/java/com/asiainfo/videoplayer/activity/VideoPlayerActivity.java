@@ -258,14 +258,11 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
     }
 
 
-    @OnClick({R.id.vv_player, R.id.sb_play, R.id.iv_playControl, R.id.tv_currentTime, R.id.tv_totalTime, R.id.ll_playControl, R.id.iv_screenSwitch, R.id.iv_volume, R.id.sb_volume, R.id.ll_volumeControl, R.id.ll_control, R.id.rl_video})
+    @OnClick({R.id.iv_playControl, R.id.iv_screenSwitch})
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.vv_player:
-                break;
-            case R.id.sb_play:
-                break;
+
             case R.id.iv_playControl:
 
                 /***
@@ -290,16 +287,6 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
 
                 }
 
-
-                break;
-
-            case R.id.tv_currentTime:
-                break;
-
-            case R.id.tv_totalTime:
-                break;
-
-            case R.id.ll_playControl:
                 break;
 
             case R.id.iv_screenSwitch:
@@ -319,19 +306,7 @@ public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarCh
 
                 break;
 
-            case R.id.iv_volume:
-                break;
-
-            case R.id.sb_volume:
-                break;
-
-            case R.id.ll_volumeControl:
-                break;
-
-            case R.id.ll_control:
-                break;
-
-            case R.id.rl_video:
+            default:
                 break;
         }
     }
