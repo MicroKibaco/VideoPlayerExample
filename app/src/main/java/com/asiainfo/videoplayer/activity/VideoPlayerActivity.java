@@ -30,6 +30,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 描述:自定义简易视频播放器 创建时间:2/6/17/11:25 作者:小木箱 邮箱:yangzy3@asiainfo.com
+ */
+
 public class VideoPlayerActivity extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
 
     static final int UPDATE_UI = 1;

@@ -8,8 +8,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 /**
- * 兼容6.0的权限
+ * 描述:兼容6.0的权限 
+ * 创建时间:2/6/17/11:24 作者:小木箱 邮箱:yangzy3@asiainfo.com
  */
+
 public class permissionutil {
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 1;
 
