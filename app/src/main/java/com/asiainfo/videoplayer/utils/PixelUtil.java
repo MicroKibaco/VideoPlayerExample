@@ -6,8 +6,10 @@ import android.widget.TextView;
 import java.util.Locale;
 
 /**
- * 工具类 Created by CZY on 2017/1/31.
+ * 描述:工具类 
+ * 创建时间:2/6/17/11:24 作者:小木箱 邮箱:yangzy3@asiainfo.com
  */
+
 public class PixelUtil {
 
     /**
